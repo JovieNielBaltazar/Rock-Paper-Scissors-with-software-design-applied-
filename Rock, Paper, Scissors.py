@@ -1,83 +1,118 @@
 import random
 
-choices = ["rock", "paper", "scissors"]
 
-print("Welcome to rock paper scissors game!")
-rounds = int(input("How many rounds do you want the game to have? : "))
-round = 1
-user = None
-player_points = 0
-computer_points = 0
+class Rock_Paper_Scissors:
+    def __init__(self):
+        self.choices = ["rock", "paper", "scissors"]
+        self.round = 1
+        self.user = None
+        self.player_points = 0
+        self.computer_points = 0
 
-def get_user_input():
-    user = str(input("Rock, Paper, Scissors? : ")).lower()
-
-    if user not in choices:
-        print("Invalid Input!")
-        return get_user_input()
-    else:
-        return str(user)
-
-def player_wins():
-    print("Player wins!")
-    player_points + 1
-
-def computer_wins():
-    print("Computer wins!")
-    computer_points + 1
-
-def tie():
-    print("Its a Tie!")
-
-
-def decision(user, computer):
-
-    if user == "rock":
-        if computer == "scissors":
-            player_wins()
-        elif computer == "paper":
-            computer_wins()
-        else:
-            tie()
-
-    elif user == "paper":
-        if computer == "scissors":
-            computer_wins()
-        elif computer == "rock":
-            player_wins()
-        else:
-            tie()
-
-    else:
-        if computer == "rock":
-            computer_wins()
-        elif computer == "paper":
-            player_wins()
-        else:
-            tie()
-
-while True:
-
-    computer = random.choice(choices)
-
-    if round < (rounds+1):
-
-        print(f"round {round}")
-        user = get_user_input()
-        print(f"Computer: {computer}")
-        decision(user, computer)
-        round += 1
-
-    else:
+    def launch(self):
         
-        print(f"Total scores, \nPlayer: {player_points} \nComputer: {computer_points}")
+        self.rounds = input("How many rounds do you want the game to have? : ")
 
-        if player_points > computer_points:
-            print("Over all winner is Player!")
+        if self.is_number():
+            return self.rounds
         else:
-            print("Over all winner is Computer!")
+            print("invalid Input!")
+            return self.launch()
 
-        print("thank you for Playing!")
-        break
+    def get_user_input(self):
+        user = str(input("Rock, Paper, Scissors? : ")).lower()
 
-    
+        if user not in self.choices:
+            print("Invalid Input!")
+            return self.get_user_input()
+        else:
+            return str(user)
+
+    def scores(self):
+        print(f"Player: {self.player_points}")
+        print(f"Computer: {self.computer_points}")
+
+    def player_wins(self):
+        print("Player wins!")
+        self.player_points += 1
+        self.scores()
+
+    def computer_wins(self):
+        print("Computer wins!")
+        self.computer_points += 1
+        self.scores()
+
+    def tie(self):
+        print("Its a Tie!")
+        self.scores()
+
+
+    def decision(self, user, computer):
+
+        if user == "rock":
+            if computer == "scissors":
+                self.player_wins()
+            elif computer == "paper":
+                self.computer_wins()
+            else:
+                self.tie()
+
+        elif user == "paper":
+            if computer == "scissors":
+                self.computer_wins()
+            elif computer == "rock":
+                self.player_wins()
+            else:
+                self.tie()
+
+        else:
+            if computer == "rock":
+                self.computer_wins()
+            elif computer == "paper":
+                self.player_wins()
+            else:
+                self.tie()
+
+    def is_number(self):
+        try:
+            rounds_number = int(self.rounds)
+        except:
+            return False
+
+        return rounds_number
+
+    def game_run(self):
+
+        print("Welcome to rock paper scissors game!")
+        self.launch()
+
+        while True:
+
+            computer = random.choice(self.choices)
+
+            if self.round < (int(self.rounds) + 1):
+
+                print(f"Round {self.round}")
+                user = self.get_user_input()
+                print(f"Computer: {computer}")
+                self.decision(user, computer)
+                print("\n")
+                self.round += 1
+
+            else:
+                
+                print(f"Total scores, \nPlayer: {self.player_points} \nComputer: {self.computer_points}")
+
+                if self.player_points > self.computer_points:
+                    print("Over all winner is Player!")
+                elif self.player_points < self.computer_points:
+                    print("Over all winner is Computer!")
+                else:
+                    print("It's a tie!")
+
+                print("Thank you for Playing!")
+                break
+
+        
+game = Rock_Paper_Scissors()
+game.game_run()
